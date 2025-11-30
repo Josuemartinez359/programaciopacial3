@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef2f3;
+            padding: 40px;
+        }
+        .container {
+            width: 420px;
+            margin: 0 auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #bbb;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border-radius: 5px;
+            border: 1px solid #bbb;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #0078ff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #005fcc;
+        }
+
+        /* Mensajes */
+        .message {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .message.error {
+            background-color: #ffe6e6;
+            color: #cc0000;
+        }
+        .message.success {
+            background-color: #e6ffe6;
+            color: #007800;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container {
+                width: 90%;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Registrar Usuario</h2>
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form action="{% url 'guardar_usuario' %}" method="POST">
+            {% csrf_token %}
+
+            <label>Identificación:</label>
+            <input type="number" name="identificacion" required
+                   value="{{ request.POST.identificacion|default_if_none:'' }}">
+
+            <label>Apodo:</label>
+            <input type="text" name="apodo" 
+                   value="{{ request.POST.apodo|default_if_none:'' }}">
+
+            <label>Email:</label>
+            <input type="email" name="email"
+                   value="{{ request.POST.email|default_if_none:'' }}">
+
+            <label>Clave:</label>
+            <input type="password" name="clave" required>
+
+            <label>Nombre:</label>
+            <input type="text" name="nombre" required
+                   value="{{ request.POST.nombre|default_if_none:'' }}">
+
+            <label>Apellido:</label>
+            <input type="text" name="apellido" required
+                   value="{{ request.POST.apellido|default_if_none:'' }}">
+
+            <button type="submit">Guardar usuario</button>
+        </form>
+    </div>
+
+</body>
+</html>
