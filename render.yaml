@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: programaciopacial3-django
+    env: python
+    plan: free
+    branch: main
+    buildCommand: pip install -r requirements.txt && bash ./scripts/render_deploy.sh
+    startCommand: gunicorn mysite.wsgi:application
+    # Note: render.yaml should *not* contain secret values.
+    envVars:
+      - key: SECRET_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: ALLOWED_HOSTS
+        sync: false
+      - key: DEBUG
+        value: "False"
+    autoDeploy: true

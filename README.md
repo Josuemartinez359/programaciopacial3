@@ -13,8 +13,15 @@ Pasos mínimos para desplegar en Render:
    - ALLOWED_HOSTS — ejemplo: `my-app.onrender.com,localhost`
 
 3. Build & Start (Render detecta Python):
-   - Build command: `pip install -r requirements.txt && python manage.py migrate && python manage.py collectstatic --noinput`
-   - Start command: Render usará `Procfile` para lanzar: `web: gunicorn mysite.wsgi:application` (si `Root Directory` = `actividad 1`).
+   - Build command: `pip install -r requirements.txt && bash ./scripts/render_deploy.sh`
+    - Start command: Render usará `Procfile` para lanzar: `web: gunicorn mysite.wsgi:application` (si `Root Directory` = `actividad 1`).
+
+Nota sobre el hook automático de deploy:
+
+   - He añadido `scripts/render_deploy.sh` que ejecuta `manage.py migrate` y `manage.py collectstatic`.
+   - El script detecta si `manage.py` está en la raíz o en la carpeta `actividad 1` y hace `cd` si es necesario.
+   - En Render configura el Build Command a:
+      `pip install -r requirements.txt && bash ./scripts/render_deploy.sh`
 
 4. Asegúrate de que `requirements.txt` contiene: gunicorn, whitenoise, dj-database-url, psycopg2-binary (ya añadido).
 
